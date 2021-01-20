@@ -1,0 +1,655 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+ <basicSettings>
+  <Environment>DEV</Environment>
+ </basicSettings>
+ <executionGroup EGName="CDR_Sub_01">
+  <flows>
+   <flow flowName="ca.fcl.cmms.Sub_GLBalances_MF">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.*:GLBalances.*:GLBalance[1].*:GTEDBT</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>MF</systemID>
+      <destinaltion>Mainframe balances</destinaltion>
+      <file>
+       <fileDirectoryRelative>SC/CMMS/glbalances</fileDirectoryRelative>
+       <fileName>ITST.JDE.GLTCRC.TX1</fileName>
+      </file>
+     </subscriber>
+    </subscribers>
+   </flow>
+  <flow flowName="ca.fcl.cmms.Sub_AssetMaster_CustomSQLDB">
+				<Settings>
+					<loggingLevel>Full</loggingLevel>
+				</Settings>
+				<subscribers>
+					<subscriber>
+						<systemID>CustomSQLDB</systemID>
+						<destinaltion>Custom SQL DB</destinaltion>
+						<file>
+							<fileDirectoryRelative>/external/crc/DEV</fileDirectoryRelative>
+							<fileName>##CUSTOM##</fileName>
+						</file>
+						<customParams>
+							<customParam name="ServicesFilename" value="SERVICE"/>
+							<customParam name="EquipmentsFilename" value="EQUIP"/>
+							<customParam name="ServiceCentersFilename" value="SERVCNTR"/>
+							<customParam name="EquipTypeFilename" value="EQUIPTYP"/>
+						</customParams>
+					</subscriber>
+				</subscribers>
+	</flow>
+  </flows>
+ </executionGroup>
+ <executionGroup EGName="JDE_Pub_01">
+  <flows>
+   <flow flowName="ca.fcl.cmms.JDE_WorkOrderAssociation_Pub" applicationName="JDE_WorkOrderAssociation_Pub">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <MessageIdXPath>'WOAssoc' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:TransactionNumber</MessageIdXPath>
+     <OperationIdXPath>'WOAssoc' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:TransactionNumber</OperationIdXPath>
+     <BusinessIdXPath>InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:batchNumber</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>OSSuite_MOC</systemID>
+      <destinaltion>Sub_WOAssociationMOC_OSSuite</destinaltion>
+      <MQ>
+       <queueName>OSS.WORK_ORDER_ASSOC.MOC.SUB</queueName>
+      </MQ>
+     </subscriber>
+     <subscriber>
+      <systemID>OSSuite_CAPA</systemID>
+      <destinaltion>Sub_WOAssociationCAPA_OSSuite</destinaltion>
+      <MQ>
+       <queueName>OSS.WORK_ORDER_ASSOC.CAPA.SUB</queueName>
+      </MQ>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.JDE_GLBalances_Pub">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.*:GLBalances.*:GLBalance[1].*:GTEDBT</BusinessIdXPath>
+    </Settings>
+    <providers>
+     <provider>
+      <systemID>JDE</systemID>
+      <destinaltion>JDE Database</destinaltion>
+      <database>
+       <schema>TESTDTA</schema>
+      </database>
+     </provider>
+    </providers>
+    <subscribers>
+     <subscriber>
+      <systemID>MF</systemID>
+      <destinaltion>Sub_GLBalances_MF</destinaltion>
+      <MQ>
+       <queueName>MF.GLBALANCE.SUB</queueName>
+      </MQ>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.JDE_WorkOrderTask_Pub">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <MessageIdXPath>'WOTask' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:transactionNumber</MessageIdXPath>
+     <OperationIdXPath>'WOTask' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:transactionNumber</OperationIdXPath>
+     <BusinessIdXPath>InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:batchNumber</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>Primavera</systemID>
+      <destinaltion>Sub_WorkOrderTask_Primavera</destinaltion>
+      <MQ>
+       <queueName>PRIM.WORDER_TASK.SUB</queueName>
+      </MQ>
+     </subscriber>
+     <subscriber>
+      <systemID>JDE_WS</systemID>
+      <destinaltion>Sub_WorkOrderTaskAck_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.WORDER_TASK_ACK.SUB</queueName>
+      </MQ>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.JDE_Relationship_Pub">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <MessageIdXPath>'WORel' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:transactionNumber</MessageIdXPath>
+     <OperationIdXPath>'WORel' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:transactionNumber</OperationIdXPath>
+     <BusinessIdXPath>InputRoot.SOAP.Body.*:createRelationshipsRequest.*:batchNumber</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>Primavera</systemID>
+      <destinaltion>Sub_Relationship_Primavera</destinaltion>
+      <MQ>
+       <queueName>PRIM.WORDER_RELAT.SUB</queueName>
+      </MQ>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.JDE_AssetMaster_Pub">
+				<Settings>
+					<CacheSettings>
+						<dataCacheExpiry>3600</dataCacheExpiry>
+					</CacheSettings>
+					<loggingLevel>Full</loggingLevel>
+					<TimerInterval>86400</TimerInterval>
+					<customParams>
+						<customParam name="setTime" value="12:05:00"/>
+						<customParam name="chunkSize" value="1500"/>
+					</customParams>
+				</Settings>
+				<providers>
+					<provider>
+						<systemID>JDE</systemID>
+						<destinaltion>JDE F1201 schema</destinaltion>
+						<database>
+							<schema>TESTDTA</schema>
+						</database>
+					</provider>
+				</providers>
+				<subscribers>
+					<subscriber>
+						<systemID>CustomSQLDB</systemID>
+						<destinaltion>Sub_AssetMaster_CustomSQLDB</destinaltion>
+						<MQ>
+							<queueName>SQLDB.ASSETMASTER.SUB</queueName>
+						</MQ>
+					</subscriber>
+				</subscribers>
+			</flow>
+	<flow flowName="ca.fcl.cmms.JDE_AssetMasterReferenceData_Pub">
+				<Settings>
+					<CacheSettings>
+						<dataCacheExpiry>3600</dataCacheExpiry>
+					</CacheSettings>
+					<loggingLevel>Full</loggingLevel>
+					<TimerInterval>86400</TimerInterval>
+					<customParams>
+						<customParam name="setTime" value="12:05:00"/>
+					</customParams>
+				</Settings>
+				<providers>
+					<provider>
+						<systemID>JDE</systemID>
+						<destinaltion>JDE F0005 schema</destinaltion>
+						<database>
+							<schema>TESTCTL</schema>
+						</database>
+					</provider>
+				</providers>
+				<subscribers>
+					<subscriber>
+						<systemID>CustomSQLDB</systemID>
+						<destinaltion>Sub_AssetMaster_CustomSQLDB</destinaltion>
+						<MQ>
+							<queueName>SQLDB.ASSETMASTER.SUB</queueName>
+						</MQ>
+					</subscriber>
+				</subscribers>
+			</flow>
+  </flows>
+ </executionGroup>
+ <executionGroup EGName="JDE_Sub_01">
+  <flows>
+   <flow flowName="ca.fcl.cmms.Sub_ContractorRating_JDE">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.*:ContractorRatings.*:ContractorRating[&gt;].*:ISNID</BusinessIdXPath>
+    </Settings>
+    <providers>
+     <provider>
+      <systemID>JDE</systemID>
+      <destinaltion>JDE Database</destinaltion>
+      <database>
+       <schema>TESTDTA</schema>
+      </database>
+     </provider>
+    </providers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Sub_WODocuments_JDE">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.WorkOrderDocuments.externalDocID</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE_WS</systemID>
+      <destinaltion>JDE_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>https://fsr3vlbsv1:7191/DV920/ExDocRecordsManager</webServiceURL>
+       <userName>ESBWSVCID</userName>
+       <password>B0kWnp9GKI</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Sub_WorkOrderTaskAck_JDE">
+    <Settings>
+     <CacheSettings>
+      <dataCacheExpiry>900</dataCacheExpiry>
+     </CacheSettings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.setWOTasksAckg.ediBatchNumber</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE_WS</systemID>
+      <destinaltion>JDE_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>https://fsr3vlbsv1:7191/DV920/WOTasksAckgManager</webServiceURL>
+       <userName>ESBWSVCID</userName>
+       <password>B0kWnp9GKI</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Sub_RelationshipAck_JDE">
+    <Settings>
+     <CacheSettings>
+      <dataCacheExpiry>900</dataCacheExpiry>
+     </CacheSettings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.setWORelsAckg.ediBatchNumber</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE_WS</systemID>
+      <destinaltion>JDE_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>https://fsr3vlbsv1:7191/DV920/WORelsAckgManager</webServiceURL>
+       <userName>ESBWSVCID</userName>
+       <password>B0kWnp9GKI</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Sub_Activity_JDE">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>CAST(InputRoot.XMLNSC.synchronizeTaskRequest.ediBatchNumber AS CHAR) || '-' || CAST(InputRoot.XMLNSC.synchronizeTaskRequest.payloadNumber AS CHAR)</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE_WS</systemID>
+      <destinaltion>JDE_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>>https://fsr3vlbsv1:7191/DV920/GetWOTasksFromP6Manager</webServiceURL>
+       <userName>ESBWSVCID</userName>
+       <password>B0kWnp9GKI</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Sub_Relationship_JDE">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.synchronizeRelationshipsRequest.ediBatchNumber</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE_WS</systemID>
+      <destinaltion>JDE_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://localhost:7804/cmms/SynchronizeRelationshipRequest</webServiceURL>
+       <userName>ESBWSVCID</userName>
+       <password>B0kWnp9GKI</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+    </subscribers>
+   </flow>
+  </flows>
+ </executionGroup>
+ <executionGroup EGName="OSSuite_01">
+  <flows>
+   <flow flowName="ca.fcl.cmms.Sub_WOAssociationCAPA_OSSuite">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.workOrderAssociation.batchNumber</BusinessIdXPath>
+    </Settings>
+    <providers>
+     <provider>
+      <systemID>JDE</systemID>
+      <destinaltion>JDE Database</destinaltion>
+      <database>
+       <schema>dbo</schema>
+      </database>
+     </provider>
+    </providers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Sub_WOAssociationMOC_OSSuite">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.workOrderAssociation.batchNumber</BusinessIdXPath>
+    </Settings>
+    <providers>
+     <provider>
+      <systemID>JDE</systemID>
+      <destinaltion>JDE Database</destinaltion>
+      <database>
+       <schema>dbo</schema>
+      </database>
+     </provider>
+    </providers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.OSSuite_CAPA_Pub">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.WorkOrderDocuments.*:CAPA_ID</BusinessIdXPath>
+    </Settings>
+    <providers>
+     <provider>
+      <systemID>OSSuite_CAPA</systemID>
+      <destinaltion>CAPA</destinaltion>
+      <database>
+       <schema>dbo</schema>
+      </database>
+     </provider>
+    </providers>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE</systemID>
+      <destinaltion>Sub_WODocuments_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.WORDER_DOC.SUB</queueName>
+      </MQ>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.OSSuite_MOC_Pub">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.WorkOrderDocuments.*:CM_ID</BusinessIdXPath>
+    </Settings>
+    <providers>
+     <provider>
+      <systemID>OSSuite_MOC</systemID>
+      <destinaltion>MOC</destinaltion>
+      <database>
+       <schema>dbo</schema>
+      </database>
+     </provider>
+    </providers>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE</systemID>
+      <destinaltion>Sub_WODocuments_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.WORDER_DOC.SUB</queueName>
+      </MQ>
+     </subscriber>
+    </subscribers>
+   </flow>
+  </flows>
+ </executionGroup>
+ <executionGroup EGName="ISNetworld_01">
+  <flows>
+   <flow flowName="ca.fcl.cmms.ISNetworld_ContractorRating_Pub">
+    <Settings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.DFDL.*:ContractorRatings.*:ContractorRating[&gt;].*:ISN_ID</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE</systemID>
+      <destinaltion>Sub_ContractorRating_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.COMPANY_RATING.SUB</queueName>
+      </MQ>
+     </subscriber>
+    </subscribers>
+   </flow>
+  </flows>
+ </executionGroup>
+ <executionGroup EGName="Primavera_01">
+  <flows>
+   <flow flowName="ca.fcl.cmms.Sub_WorkOrderTask_Primavera">
+    <Settings>
+     <CacheSettings>
+      <dataCacheExpiry>3600</dataCacheExpiry>
+     </CacheSettings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.createWorkOrdersRequest.batchNumber</BusinessIdXPath>
+     <customParams>
+      <customParam name="Deferred" value="DELETE"></customParam>
+      <customParam name="Cancelled" value="DELETE"></customParam>
+      <customParam name="L5" value="UPDATE"></customParam>
+      <customParam name="WB" value="DELETE"></customParam>
+      <customParam name="WA" value="DELETE"></customParam>
+     </customParams>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE</systemID>
+      <destinaltion>Sub_WorkOrderTaskAck_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.WORDER_TASK_ACK.SUB</queueName>
+      </MQ>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_TA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MP</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Sub_Relationship_Primavera">
+    <Settings>
+     <CacheSettings>
+      <dataCacheExpiry>3600</dataCacheExpiry>
+     </CacheSettings>
+     <loggingLevel>Full</loggingLevel>
+     <BusinessIdXPath>InputRoot.XMLNSC.createRelationshipsRequest.batchNumber</BusinessIdXPath>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE</systemID>
+      <destinaltion>Sub_RelationshipAck_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.WORDER_RELAT_ACK.SUB</queueName>
+      </MQ>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_TA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MP</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Primavera_Activity_Pub">
+    <Settings>
+     <CacheSettings>
+      <dataCacheExpiry>3600</dataCacheExpiry>
+     </CacheSettings>
+     <loggingLevel>Full</loggingLevel>
+     <TimerInterval>90</TimerInterval>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE</systemID>
+      <destinaltion>Sub_Activity_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.ACTIVITY.SUB</queueName>
+      </MQ>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_TA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MP</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>Core</systemID>
+      <destinaltion>ESB Persistent Storage WS</destinaltion>
+      <webService>
+       <webServiceURL>http://localhost:7810/core/PersStorage</webServiceURL>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+     </subscriber>
+     <subscriber>
+      <systemID>CMMS_Users</systemID>
+      <destinaltion>CMMS_Users</destinaltion>
+      <email>
+       <To>yaroslav.latushkin@fcl.crs,Navin.Khanna@fcl.crs,varun.arukonda@fcl.crs</To>
+       <From>yaroslav.latushkin@fcl.crs</From>
+       <Subject>DEV: Exception during the P6toJDE activities processing</Subject>
+      </email>
+     </subscriber>
+    </subscribers>
+   </flow>
+   <flow flowName="ca.fcl.cmms.Primavera_Relationship_Pub">
+    <Settings>
+     <CacheSettings>
+      <dataCacheExpiry>900</dataCacheExpiry>
+     </CacheSettings>
+     <loggingLevel>Full</loggingLevel>
+     <TimerInterval>90</TimerInterval>
+    </Settings>
+    <subscribers>
+     <subscriber>
+      <systemID>JDE</systemID>
+      <destinaltion>Sub_Relationship_JDE</destinaltion>
+      <MQ>
+       <queueName>JDE.RELATIONSHIP.SUB</queueName>
+      </MQ>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_TA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+	  <customParams>
+		<customParam name="ChunkSize" value="100"/>
+	  </customParams>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MP</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+	  <customParams>
+		<customParam name="ChunkSize" value="100"/>
+	  </customParams>
+     </subscriber>
+     <subscriber>
+      <systemID>Primavera_WS_MA</systemID>
+      <destinaltion>Primavera_Web_Service</destinaltion>
+      <webService>
+       <webServiceURL>http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services</webServiceURL>
+       <userName>primavera.dev.esb</userName>
+       <password>XXXXXXX</password>
+       <timeoutMillis>5000</timeoutMillis>
+      </webService>
+	  <customParams>
+		<customParam name="ChunkSize" value="10"/>
+	  </customParams>
+     </subscriber>
+     <subscriber>
+      <systemID>CMMS_Users</systemID>
+      <destinaltion>CMMS_Users</destinaltion>
+      <email>
+       <To>yaroslav.latushkin@fcl.crs,Navin.Khanna@fcl.crs,varun.arukonda@fcl.crs</To>
+       <From>yaroslav.latushkin@fcl.crs</From>
+       <Subject>DEV: Exception during the P6toJDE activities processing</Subject>
+      </email>
+     </subscriber>
+    </subscribers>
+   </flow>
+  </flows>
+ </executionGroup>
+</configuration>

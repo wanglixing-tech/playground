@@ -1,0 +1,22 @@
+<html>
+    <head>
+        <title>Gimli's Widgetarium</title>
+    </head>
+    <body>
+        <table>
+            #set ($rowCount = 1)            
+            #foreach($issue in $issueList)
+                #if ($rowCount % 2 == 0)
+                    #set ($bgcolor = "#FFFFFF")
+                #else
+                    #set ($bgcolor = "#CCCCCC")                
+                #end
+                <tr>
+                    <td bgcolor="$bgcolor">$issue.issueSummary</td>
+                    <td bgcolor="$bgcolor"><PRE>$issue.issueReleaseNotes</PRE></td>
+                </tr>                        
+                #set ($rowCount = $rowCount + 1)
+            #end
+        </table>
+    </body>
+</html>

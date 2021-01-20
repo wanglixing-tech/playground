@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <property name="fs" value="\"/>
+  <copy file="C:\Users\Richard.Wang\WS-HOME\ws-everything\launcher-4-apps${fs}target${fs}launcher-4-apps-0.0.1-SNAPSHOT-jar-with-dependencies.jar" tofile="C:\Users\Richard.Wang\WS-HOME\ws-everything\launcher-4-apps${fs}target${fs}launcher-4-apps.jar"/>
+</target>
+</project>

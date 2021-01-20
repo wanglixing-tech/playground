@@ -1,0 +1,3 @@
+com\richard\jndi\web\bookstore\Book.class
+com\richard\jndi\web\bookstore\ControllerServlet.class
+com\richard\jndi\web\bookstore\BookDAO.class

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<chapter>
+  <para>para1</para>
+  <figure>
+    <title>title 1</title>
+    <graphic fileref="pic1.jpg" />
+  </figure>
+  <para>para2</para>
+  <sect1>
+    <para>para3</para>
+    <figure>
+      <title>"He Lights"</title>
+      <graphic fileref="pic2.jpg" />
+    </figure>
+    <para>line 1</para>
+    <sect2>
+      <para>line 2</para>
+      <figure>
+        <title>title 2</title>
+        <graphic fileref="pic1.jpg" />
+      </figure>
+    </sect2>
+    <sect3>
+      <para>line 3</para>
+      <figure>
+        <title>title 3</title>
+        <graphic fileref="pic3.jpg" />
+      </figure>
+    </sect3>
+  </sect1>
+</chapter>

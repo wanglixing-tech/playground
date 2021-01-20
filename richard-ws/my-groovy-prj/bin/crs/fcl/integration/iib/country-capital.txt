@@ -1,0 +1,61 @@
+# Ref URL : https://www.countries-ofthe-world.com/capitals-of-the-world.html
+
+Afghanishtan, Kabul
+Australia, Canberra
+Austria, Vienna
+Bahamas, Nassau
+Bahrain, Manama
+Bangladesh, Dhaka
+Belgium, Brussels
+Bhutan, Thimphu
+Brazil, Brasilia
+Canada, Ottawa
+China, Beijing
+Chile, Santiago
+Cuba, Havana
+Czech Republic, Prague
+Denmark, Copenhagen
+Egypt, Cairo
+Fiji, Suva
+Finland, Helsinki
+France, Paris
+Germany, Berlin
+Greece, Athens
+Guyana, Gerogetown
+Hungary, Budapest
+India, New Delhi
+Indonesia, Jakarta
+Ireland, Dublin
+Italy, Rome
+Japan, Tokyo
+Kenya, Nairobi
+Libya, Tripoli
+Luxembourg, Luxembourg
+Malaysia, Kuala Lampur
+Maldives, Male
+Namibia, Windhoek
+Nepal, Kathmandu
+Netherlands, Amsterdam
+Oman, Muscat
+Pakistan, Islamabad
+Peru, Lima
+Qatar, Doha
+Romania, Bucharest
+Russia, Moscow
+Singapore, Singapore
+Slovakia, Ljubljana
+South Korea, Seoul
+Switzerland, Bern
+Taiwan, Taipei
+Tanzania, Dodoma
+Turkey, Ankara
+Uganda, Kampala
+United Arab Emirates, Abu Dhabi
+United Kingdom, London
+United States of America, Washington DC
+Vatican City, Vatican City
+Vietnam, Hanoi
+Yemen, Sanaa
+Zambia, Lusaka
+Zimbabwe, Harare
+

@@ -1,0 +1,15 @@
+<soapenv:Envelope xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+					xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+					xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" 
+					xmlns:ser="http://services.web.post.list.com">
+	<soapenv:Header>
+		<authInfo xsi:type="soap:authentication" xmlns:soap="http://list.com/services/SoapRequestProcessor">
+			<username xsi:type="xsd:string">
+				asdf@g.com
+			</username>
+			<password xsi:type="xsd:string">
+				asdf
+			</password>
+		</authInfo>
+	</soapenv:Header>
+</soapenv:Envelope>

@@ -1,0 +1,22 @@
+---
+environments:
+    DEV: 
+       - integrationNode:
+         nodeName: DFIB01
+         hostName: 127.0.0.1
+         port: 2202
+         proxyUser: rwang
+         sshKeyName: putty_rsa.ppk
+         iibVersion: 10.0.0.18
+         iibInstallPath: "/opt/IBM/iib-10.0.0.18"
+         queueManagerName: MQM1
+       - integrationNode:
+         nodeName: EFIB01
+         hostName: fsr3vlesb
+         port: 22
+         proxyUser: iib
+         sshKeyName: iib@fsr3vlesb-id_rsa.ppk
+         iibVersion: 10.0.0.18
+         iibInstallPath: "/opt/IBM/iib-10.0.0.18"
+         queueManagerName: EFIB01
+...

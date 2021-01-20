@@ -1,0 +1,762 @@
+{
+	"configuration": {
+		"xmlns:xsi": "http://www.w3.org/2001/XMLSchema-instance",
+		"basicSettings": {
+			"Environment": "DEV"
+		},
+		"executionGroup": [
+			{
+				"EGName": "CDR_Sub_01",
+				"flows": {
+					"flow": [
+						{
+							"flowName": "ca.fcl.cmms.Sub_GLBalances_MF",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.*:GLBalances.*:GLBalance[1].*:GTEDBT"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "MF",
+									"destinaltion": "Mainframe balances",
+									"file": {
+										"fileDirectoryRelative": "SC/CMMS/glbalances",
+										"fileName": "ITST.JDE.GLTCRC.TX1"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_AssetMaster_CustomSQLDB",
+							"Settings": {
+								"loggingLevel": "Full"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "CustomSQLDB",
+									"destinaltion": "Custom SQL DB",
+									"file": {
+										"fileDirectoryRelative": "/external/crc/DEV",
+										"fileName": "##CUSTOM##"
+									},
+									"customParams": {
+										"customParam": [
+											{
+												"name": "ServicesFilename",
+												"value": "SERVICE"
+											},
+											{
+												"name": "EquipmentsFilename",
+												"value": "EQUIP"
+											},
+											{
+												"name": "ServiceCentersFilename",
+												"value": "SERVCNTR"
+											},
+											{
+												"name": "EquipTypeFilename",
+												"value": "EQUIPTYP"
+											}
+										]
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"EGName": "JDE_Pub_01",
+				"flows": {
+					"flow": [
+						{
+							"flowName": "ca.fcl.cmms.JDE_WorkOrderAssociation_Pub",
+							"applicationName": "JDE_WorkOrderAssociation_Pub",
+							"Settings": {
+								"loggingLevel": "Full",
+								"MessageIdXPath": "'WOAssoc' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:TransactionNumber",
+								"OperationIdXPath": "'WOAssoc' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:TransactionNumber",
+								"BusinessIdXPath": "InputRoot.SOAP.Body.*:sendWorkOrderAssociationRequest.*:batchNumber"
+							},
+							"subscribers": {
+								"subscriber": [
+									{
+										"systemID": "OSSuite_MOC",
+										"destinaltion": "Sub_WOAssociationMOC_OSSuite",
+										"MQ": {
+											"queueName": "OSS.WORK_ORDER_ASSOC.MOC.SUB"
+										}
+									},
+									{
+										"systemID": "OSSuite_CAPA",
+										"destinaltion": "Sub_WOAssociationCAPA_OSSuite",
+										"MQ": {
+											"queueName": "OSS.WORK_ORDER_ASSOC.CAPA.SUB"
+										}
+									}
+								]
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.JDE_GLBalances_Pub",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.*:GLBalances.*:GLBalance[1].*:GTEDBT"
+							},
+							"providers": {
+								"provider": {
+									"systemID": "JDE",
+									"destinaltion": "JDE Database",
+									"database": {
+										"schema": "TESTDTA"
+									}
+								}
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "MF",
+									"destinaltion": "Sub_GLBalances_MF",
+									"MQ": {
+										"queueName": "MF.GLBALANCE.SUB"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.JDE_WorkOrderTask_Pub",
+							"Settings": {
+								"loggingLevel": "Full",
+								"MessageIdXPath": "'WOTask' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:transactionNumber",
+								"OperationIdXPath": "'WOTask' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:transactionNumber",
+								"BusinessIdXPath": "InputRoot.SOAP.Body.*:createWorkOrdersRequest.*:batchNumber"
+							},
+							"subscribers": {
+								"subscriber": [
+									{
+										"systemID": "Primavera",
+										"destinaltion": "Sub_WorkOrderTask_Primavera",
+										"MQ": {
+											"queueName": "PRIM.WORDER_TASK.SUB"
+										}
+									},
+									{
+										"systemID": "JDE_WS",
+										"destinaltion": "Sub_WorkOrderTaskAck_JDE",
+										"MQ": {
+											"queueName": "JDE.WORDER_TASK_ACK.SUB"
+										}
+									}
+								]
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.JDE_Relationship_Pub",
+							"Settings": {
+								"loggingLevel": "Full",
+								"MessageIdXPath": "'WORel' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:transactionNumber",
+								"OperationIdXPath": "'WORel' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:batchNumber || '$' || InputRoot.SOAP.Body.*:createRelationshipsRequest.*:transactionNumber",
+								"BusinessIdXPath": "InputRoot.SOAP.Body.*:createRelationshipsRequest.*:batchNumber"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "Primavera",
+									"destinaltion": "Sub_Relationship_Primavera",
+									"MQ": {
+										"queueName": "PRIM.WORDER_RELAT.SUB"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.JDE_AssetMaster_Pub",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "3600"
+								},
+								"loggingLevel": "Full",
+								"TimerInterval": "86400",
+								"customParams": {
+									"customParam": [
+										{
+											"name": "setTime",
+											"value": "12:05:00"
+										},
+										{
+											"name": "chunkSize",
+											"value": "1500"
+										}
+									]
+								}
+							},
+							"providers": {
+								"provider": {
+									"systemID": "JDE",
+									"destinaltion": "JDE F1201 schema",
+									"database": {
+										"schema": "TESTDTA"
+									}
+								}
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "CustomSQLDB",
+									"destinaltion": "Sub_AssetMaster_CustomSQLDB",
+									"MQ": {
+										"queueName": "SQLDB.ASSETMASTER.SUB"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.JDE_AssetMasterReferenceData_Pub",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "3600"
+								},
+								"loggingLevel": "Full",
+								"TimerInterval": "86400",
+								"customParams": {
+									"customParam": {
+										"name": "setTime",
+										"value": "12:05:00"
+									}
+								}
+							},
+							"providers": {
+								"provider": {
+									"systemID": "JDE",
+									"destinaltion": "JDE F0005 schema",
+									"database": {
+										"schema": "TESTCTL"
+									}
+								}
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "CustomSQLDB",
+									"destinaltion": "Sub_AssetMaster_CustomSQLDB",
+									"MQ": {
+										"queueName": "SQLDB.ASSETMASTER.SUB"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"EGName": "JDE_Sub_01",
+				"flows": {
+					"flow": [
+						{
+							"flowName": "ca.fcl.cmms.Sub_ContractorRating_JDE",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.*:ContractorRatings.*:ContractorRating[>].*:ISNID"
+							},
+							"providers": {
+								"provider": {
+									"systemID": "JDE",
+									"destinaltion": "JDE Database",
+									"database": {
+										"schema": "TESTDTA"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_WODocuments_JDE",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.WorkOrderDocuments.externalDocID"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "JDE_WS",
+									"destinaltion": "JDE_Web_Service",
+									"webService": {
+										"webServiceURL": "https://fsr3vlbsv1:7191/DV920/ExDocRecordsManager",
+										"userName": "ESBWSVCID",
+										"password": "B0kWnp9GKI",
+										"timeoutMillis": "5000"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_WorkOrderTaskAck_JDE",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "900"
+								},
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.setWOTasksAckg.ediBatchNumber"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "JDE_WS",
+									"destinaltion": "JDE_Web_Service",
+									"webService": {
+										"webServiceURL": "https://fsr3vlbsv1:7191/DV920/WOTasksAckgManager",
+										"userName": "ESBWSVCID",
+										"password": "B0kWnp9GKI",
+										"timeoutMillis": "5000"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_RelationshipAck_JDE",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "900"
+								},
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.setWORelsAckg.ediBatchNumber"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "JDE_WS",
+									"destinaltion": "JDE_Web_Service",
+									"webService": {
+										"webServiceURL": "https://fsr3vlbsv1:7191/DV920/WORelsAckgManager",
+										"userName": "ESBWSVCID",
+										"password": "B0kWnp9GKI",
+										"timeoutMillis": "5000"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_Activity_JDE",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "CAST(InputRoot.XMLNSC.synchronizeTaskRequest.ediBatchNumber AS CHAR) || '-' || CAST(InputRoot.XMLNSC.synchronizeTaskRequest.payloadNumber AS CHAR)"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "JDE_WS",
+									"destinaltion": "JDE_Web_Service",
+									"webService": {
+										"webServiceURL": ">https://fsr3vlbsv1:7191/DV920/GetWOTasksFromP6Manager",
+										"userName": "ESBWSVCID",
+										"password": "B0kWnp9GKI",
+										"timeoutMillis": "5000"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_Relationship_JDE",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.synchronizeRelationshipsRequest.ediBatchNumber"
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "JDE_WS",
+									"destinaltion": "JDE_Web_Service",
+									"webService": {
+										"webServiceURL": "http://localhost:7804/cmms/SynchronizeRelationshipRequest",
+										"userName": "ESBWSVCID",
+										"password": "B0kWnp9GKI",
+										"timeoutMillis": "5000"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"EGName": "OSSuite_01",
+				"flows": {
+					"flow": [
+						{
+							"flowName": "ca.fcl.cmms.Sub_WOAssociationCAPA_OSSuite",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.workOrderAssociation.batchNumber"
+							},
+							"providers": {
+								"provider": {
+									"systemID": "JDE",
+									"destinaltion": "JDE Database",
+									"database": {
+										"schema": "dbo"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_WOAssociationMOC_OSSuite",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.workOrderAssociation.batchNumber"
+							},
+							"providers": {
+								"provider": {
+									"systemID": "JDE",
+									"destinaltion": "JDE Database",
+									"database": {
+										"schema": "dbo"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.OSSuite_CAPA_Pub",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.WorkOrderDocuments.*:CAPA_ID"
+							},
+							"providers": {
+								"provider": {
+									"systemID": "OSSuite_CAPA",
+									"destinaltion": "CAPA",
+									"database": {
+										"schema": "dbo"
+									}
+								}
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "JDE",
+									"destinaltion": "Sub_WODocuments_JDE",
+									"MQ": {
+										"queueName": "JDE.WORDER_DOC.SUB"
+									}
+								}
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.OSSuite_MOC_Pub",
+							"Settings": {
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.WorkOrderDocuments.*:CM_ID"
+							},
+							"providers": {
+								"provider": {
+									"systemID": "OSSuite_MOC",
+									"destinaltion": "MOC",
+									"database": {
+										"schema": "dbo"
+									}
+								}
+							},
+							"subscribers": {
+								"subscriber": {
+									"systemID": "JDE",
+									"destinaltion": "Sub_WODocuments_JDE",
+									"MQ": {
+										"queueName": "JDE.WORDER_DOC.SUB"
+									}
+								}
+							}
+						}
+					]
+				}
+			},
+			{
+				"EGName": "ISNetworld_01",
+				"flows": {
+					"flow": {
+						"flowName": "ca.fcl.cmms.ISNetworld_ContractorRating_Pub",
+						"Settings": {
+							"loggingLevel": "Full",
+							"BusinessIdXPath": "InputRoot.DFDL.*:ContractorRatings.*:ContractorRating[>].*:ISN_ID"
+						},
+						"subscribers": {
+							"subscriber": {
+								"systemID": "JDE",
+								"destinaltion": "Sub_ContractorRating_JDE",
+								"MQ": {
+									"queueName": "JDE.COMPANY_RATING.SUB"
+								}
+							}
+						}
+					}
+				}
+			},
+			{
+				"EGName": "Primavera_01",
+				"flows": {
+					"flow": [
+						{
+							"flowName": "ca.fcl.cmms.Sub_WorkOrderTask_Primavera",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "3600"
+								},
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.createWorkOrdersRequest.batchNumber",
+								"customParams": {
+									"customParam": [
+										{
+											"name": "Deferred",
+											"value": "DELETE"
+										},
+										{
+											"name": "Cancelled",
+											"value": "DELETE"
+										},
+										{
+											"name": "L5",
+											"value": "UPDATE"
+										},
+										{
+											"name": "WB",
+											"value": "DELETE"
+										},
+										{
+											"name": "WA",
+											"value": "DELETE"
+										}
+									]
+								}
+							},
+							"subscribers": {
+								"subscriber": [
+									{
+										"systemID": "JDE",
+										"destinaltion": "Sub_WorkOrderTaskAck_JDE",
+										"MQ": {
+											"queueName": "JDE.WORDER_TASK_ACK.SUB"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_TA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MP",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									}
+								]
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Sub_Relationship_Primavera",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "3600"
+								},
+								"loggingLevel": "Full",
+								"BusinessIdXPath": "InputRoot.XMLNSC.createRelationshipsRequest.batchNumber"
+							},
+							"subscribers": {
+								"subscriber": [
+									{
+										"systemID": "JDE",
+										"destinaltion": "Sub_RelationshipAck_JDE",
+										"MQ": {
+											"queueName": "JDE.WORDER_RELAT_ACK.SUB"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_TA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MP",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									}
+								]
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Primavera_Activity_Pub",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "3600"
+								},
+								"loggingLevel": "Full",
+								"TimerInterval": "90"
+							},
+							"subscribers": {
+								"subscriber": [
+									{
+										"systemID": "JDE",
+										"destinaltion": "Sub_Activity_JDE",
+										"MQ": {
+											"queueName": "JDE.ACTIVITY.SUB"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_TA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MP",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "Core",
+										"destinaltion": "ESB Persistent Storage WS",
+										"webService": {
+											"webServiceURL": "http://localhost:7810/core/PersStorage",
+											"timeoutMillis": "5000"
+										}
+									},
+									{
+										"systemID": "CMMS_Users",
+										"destinaltion": "CMMS_Users",
+										"email": {
+											"To": "yaroslav.latushkin@fcl.crs,Navin.Khanna@fcl.crs,varun.arukonda@fcl.crs",
+											"From": "yaroslav.latushkin@fcl.crs",
+											"Subject": "DEV: Exception during the P6toJDE activities processing"
+										}
+									}
+								]
+							}
+						},
+						{
+							"flowName": "ca.fcl.cmms.Primavera_Relationship_Pub",
+							"Settings": {
+								"CacheSettings": {
+									"dataCacheExpiry": "900"
+								},
+								"loggingLevel": "Full",
+								"TimerInterval": "90"
+							},
+							"subscribers": {
+								"subscriber": [
+									{
+										"systemID": "JDE",
+										"destinaltion": "Sub_Relationship_JDE",
+										"MQ": {
+											"queueName": "JDE.RELATIONSHIP.SUB"
+										}
+									},
+									{
+										"systemID": "Primavera_WS_TA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8206/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										},
+										"customParams": {
+											"customParam": {
+												"name": "ChunkSize",
+												"value": "100"
+											}
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MP",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "https://crc-prm-dev-02.crc.ad.crs:8212/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										},
+										"customParams": {
+											"customParam": {
+												"name": "ChunkSize",
+												"value": "100"
+											}
+										}
+									},
+									{
+										"systemID": "Primavera_WS_MA",
+										"destinaltion": "Primavera_Web_Service",
+										"webService": {
+											"webServiceURL": "http://crc-prm-dev-02.crc.ad.crs:8208/p6ws/services",
+											"userName": "primavera.dev.esb",
+											"password": "XXXXXXX",
+											"timeoutMillis": "5000"
+										},
+										"customParams": {
+											"customParam": {
+												"name": "ChunkSize",
+												"value": "10"
+											}
+										}
+									},
+									{
+										"systemID": "CMMS_Users",
+										"destinaltion": "CMMS_Users",
+										"email": {
+											"To": "yaroslav.latushkin@fcl.crs,Navin.Khanna@fcl.crs,varun.arukonda@fcl.crs",
+											"From": "yaroslav.latushkin@fcl.crs",
+											"Subject": "DEV: Exception during the P6toJDE activities processing"
+										}
+									}
+								]
+							}
+						}
+					]
+				}
+			}
+		]
+	}
+}

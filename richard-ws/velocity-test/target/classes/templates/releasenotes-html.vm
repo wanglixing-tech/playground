@@ -1,0 +1,69 @@
+#disable_html_escaping()
+##Text is escaped twice so that the characters generated in the text area display properly escaped (JRA-12184)
+#macro (doubleEncode $html)
+$textUtils.htmlEncode($textUtils.htmlEncode($html))
+#end
+
+#macro (getReleaseNoteComment $issue $customFieldManager)
+#set ($customFields = $customFieldManager.getCustomFieldObjects($issue.project.getLong("id"), $issue.issueType.getString("id")))
+#foreach($customField in $customFields)
+#if($customField.name.equals("Release notes comments"))
+#if($customField.getValue($issue)) 
+<PRE> $textUtils.htmlEncode($customField.getValue($issue)) </PRE>
+#end
+#end
+#end
+#end
+
+<title>$textUtils.htmlEncode($action.getText('release.notes.html.title', $project, $version))</title>
+<body>
+
+<div class="ops-cont">
+    <ul class="ops">
+        <li>
+            <a class="button first last" href="$!requestContext.baseUrl/secure/ConfigureReleaseNote.jspa?projectId=${versionObj.projectObject.id}&version=${versionObj.id}">$action.getText('releasenotes.configure')</a>
+        </li>
+    </ul>
+</div>
+
+#foreach ($issueType in $issueTypes)
+#if($issueType.issues.size() > 0)
+<h2>$textUtils.htmlEncode($issueType.name)</h2>
+<ul>
+#foreach ($issue in $issueType.issues)
+<li>[<a href='$requestContext.canonicalBaseUrl/browse/$issue.key'>$issue.key</a>] - $textUtils.htmlEncode($issue.summary)</li>
+#end
+</ul>
+#end
+#end
+
+<hr width="100%">
+
+<a name="editarea"></a>
+<h2>$action.getText('release.notes.edit.copy')</h2>
+<p>$action.getText('release.notes.description')</p>
+
+<textarea rows="40" cols="120" id="editcopy">
+
+#doubleEncode($action.getText('release.notes.heading', $project, $version))
+#foreach ($issueType in $issueTypes)
+#if($issueType.issues.size() > 0)
+<h2>$textUtils.htmlEncode($issueType.name)</h2>
+<TABLE class="aui">
+<TR>
+<TD class="summary">Issue</TD>
+<TD class="summary">Description</TD>
+<TD class="summary">Release comment</TD>
+</TR>
+#foreach ($issue in $issueType.issues)
+<TR>
+<TD class="summary">[<a xhref='$!appProps.getString("jira.baseurl")/browse/$issue.key'>$issue.key</a>] </TD>
+<TD class="summary"> $textUtils.htmlEncode($issue.summary)</TD>
+<TD class="summary">#getReleaseNoteComment($issue $customFieldManager)</TD>
+</TR>
+#end
+</TABLE>
+#end
+#end
+</textarea>
+</body>

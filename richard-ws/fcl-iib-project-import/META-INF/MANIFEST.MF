@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Project Importer Application
+Bundle-SymbolicName: crs.fcl.integration.plugin;singleton:=true
+Bundle-Version: 10.0.0.17
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.equinox.app,
+ org.eclipse.core.resources,
+ org.eclipse.core.runtime
+Bundle-Vendor: FCL

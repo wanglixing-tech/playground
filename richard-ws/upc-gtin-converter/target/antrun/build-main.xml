@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <property name="fs" value="\"/>
+  <copy file="C:\repositories\esb\richard.wang\ws-java\upc-gtin-converter${fs}target${fs}${project.name}-0.0.1-SNAPSHOT-jar-with-dependencies.jar" tofile="C:\repositories\esb\richard.wang\ws-java\upc-gtin-converter${fs}target${fs}${project.name}.jar"/>
+</target>
+</project>

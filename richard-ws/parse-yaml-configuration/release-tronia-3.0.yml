@@ -1,0 +1,170 @@
+---
+domainName: RELEASE-TRONIA-3.0-SNAPSHOT
+worktrees:
+ - worktreeName: release/core-0.3
+   remoteBranch: origin/release/core-0.3
+   localBranch: release/core-0.3
+   localPath: TRONIA-WT/release/core-0.3
+ - worktreeName: release/pos-0.2
+   remoteBranch: origin/release/pos-0.2
+   localBranch: release/pos-0.2
+   localPath: TRONIA-WT/release/pos-0.2
+ - worktreeName: release/tronia-3.0 
+   remoteBranch: origin/release/tronia-3.0
+   localBranch: release/tronia-3.0
+   localPath:    TRONIA-WT/release/tronia-3.0
+applications:
+ - appName: DBLogger 
+   category: "release/core-0.3"     
+   mvnPom: FCL_CoreMaven_Pom
+   mvnPomJava: FCL_CoreMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.5-SNAPSHOT
+ - appName: EventLogger
+   category: release/core-0.3     
+   mvnPom: FCL_CoreMaven_Pom
+   mvnPomJava: FCL_CoreMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: FileLogger
+   category: release/core-0.3     
+   mvnPom: FCL_CoreMaven_Pom
+   mvnPomJava: FCL_CoreMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: FCL_AdapterFramework_LibTest
+   category: release/core-0.3     
+   mvnPom: FCL_CoreMaven_Pom
+   mvnPomJava: FCL_CoreMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+
+ - appName: LandingDB_POSItemCategory_Pub
+   category: release/pos-0.2
+   mvnPom: FCL_POSMaven_Pom
+   mvnPomJava: FCL_POSMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: LandingDB_POSItemDetail_Pub
+   category: release/pos-0.2
+   mvnPom: FCL_POSMaven_Pom
+   mvnPomJava: FCL_POSMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: LandingDB_POSMember_Pub
+   category: release/pos-0.2
+   mvnPom: FCL_POSMaven_Pom
+   mvnPomJava: FCL_POSMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: LandingDB_POSVendor_Pub
+   category: release/pos-0.2
+   mvnPom: FCL_POSMaven_Pom
+   mvnPomJava: FCL_POSMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Mainframe_POS2340_Pub
+   category: release/pos-0.2
+   mvnPom: FCL_POSMaven_Pom
+   mvnPomJava: FCL_POSMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Mainframe_POSPurchaseOrderAck_Pub 
+   category: release/pos-0.2
+   mvnPom: FCL_POSMaven_Pom
+   mvnPomJava: FCL_POSMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POS2340_Portal 
+   category: release/pos-0.2
+   mvnPom: FCL_POSMaven_Pom
+   mvnPomJava: FCL_POSMaven_PomJava
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+
+ - appName: LandingDB_POSItemPrice_Pub 
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: REST_HealthCheck
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: REST_TestingURLs
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSItemCategory_Tronia 
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSItemDetail_CRSHub
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSItemPrice_CRSHub
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSMember_CRSHub 
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSPurchaseOrderAck_Tronia 
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSPurchaseOrder_Mainframe
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSTLog_Mainframe 
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Sub_POSVendor_CRSHub
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Trig_Tronia 
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Tronia_POSPurchaseOrder_Pub 
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+ - appName: Tronia_POSTLog_Pub
+   category: release/tronia-3.0
+   mvnPom: FCL_TroniaMaven_Pom
+   mvnPomJava: FCL_TroniaMaven_PomJava 
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+...
+

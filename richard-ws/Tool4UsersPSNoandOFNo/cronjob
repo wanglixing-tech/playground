@@ -1,0 +1,2 @@
+logrotate -s /home/wanglixing/log/logrotate.status /home/wanglixing/test_bash/logrotate.conf
+

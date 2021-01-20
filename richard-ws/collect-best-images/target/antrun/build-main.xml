@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<project name="maven-antrun-" default="main"  >
+<target name="main">
+  <property name="fs" value="\"/>
+  <copy file="C:\repositories\esb\richard.wang\ws-collect-best-images\collect-best-images${fs}target${fs}${project.name}-0.0.1-jar-with-dependencies.jar" tofile="C:\repositories\esb\richard.wang\ws-collect-best-images\collect-best-images${fs}target${fs}${project.name}.jar"/>
+</target>
+</project>

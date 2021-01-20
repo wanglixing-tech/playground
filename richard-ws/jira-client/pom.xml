@@ -1,0 +1,83 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>crs.fcl.integration.iib</groupId>
+	<version>0.1.0-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>jira-client</name>
+
+	<dependencies>
+			<dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>1.6.6</version>
+        </dependency>
+	
+<!-- https://mvnrepository.com/artifact/javax.transaction/jta -->
+<dependency>
+    <groupId>jta</groupId>
+    <artifactId>jta</artifactId>
+    <version>1.0.1b</version>
+</dependency>
+		<dependency>
+			<groupId>com.atlassian.jira</groupId>
+			<artifactId>jira-rest-java-client-core</artifactId>
+			<version>4.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.atlassian.fugue</groupId>
+			<artifactId>fugue</artifactId>
+			<version>2.6.1</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/com.atlassian.jira/jira-api -->
+<!-- https://mvnrepository.com/artifact/com.atlassian.jira/jira-api -->
+<dependency>
+    <groupId>com.atlassian.jira</groupId>
+    <artifactId>jira-api</artifactId>
+    <version>7.0.0</version>
+    <scope>provided</scope>
+</dependency>
+		<!-- https://mvnrepository.com/artifact/org.codehaus.mojo/exec-maven-plugin -->
+		<dependency>
+		    <groupId>org.codehaus.mojo</groupId>
+		    <artifactId>exec-maven-plugin</artifactId>
+		    <version>1.6.0</version>
+		</dependency>
+ 		<!-- https://mvnrepository.com/artifact/org.apache.velocity/velocity -->
+		<dependency>
+			<groupId>org.apache.velocity</groupId>
+			<artifactId>velocity</artifactId>
+			<version>1.7</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>Custom Release Notes Comments</finalName>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<filtering>true</filtering>
+			</resource>
+		</resources>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>atlassian-public</id>
+			<url>https://packages.atlassian.com/maven/repository/public</url>
+		</repository>
+	</repositories>
+
+	<properties>
+		<jira-rest-java-client-core.version>4.0.0</jira-rest-java-client-core.version>
+		<atlassian.fugue.version>2.6.1</atlassian.fugue.version>
+	</properties>
+
+	<artifactId>jira-client</artifactId>
+</project>

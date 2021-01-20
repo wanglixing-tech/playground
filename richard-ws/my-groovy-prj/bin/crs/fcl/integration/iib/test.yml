@@ -1,0 +1,158 @@
+---
+domain: 
+ domainName:       release-tronia-3.0-SNAPSHOT
+ domainGroupId:    crs.fcl.integration.iib
+ domainArtifactId: tronia-3.0
+ domainVersion:    3.0-SNAPSHOT
+ domainPom:        FCL_Maven_Pom
+ domainPomJava:    FCL_Maven_PomJava
+
+####
+worktrees:
+ - worktreeName: "release/core-0.3"
+   remoteBranch: "origin/release/core-0.3"
+   localBranch:  "release/core-0.3"
+   localPath:    "TRONIA-WT/release/core-0.3"
+   mvnPom:       FCL_CoreMaven_Pom
+   mvnPomJava:   FCL_CoreMaven_PomJava
+#
+ - worktreeName: "release/pos-0.2"
+   remoteBranch: "origin/release/pos-0.2"
+   localBranch:  "release/pos-0.2"
+   localPath:    "TRONIA-WT/release/pos-0.2"
+   mvnPom:       FCL_POSMaven_Pom
+   mvnPomJava:   FCL_POSMaven_PomJava
+#
+ - worktreeName: "release/tronia-3.0" 
+   remoteBranch: "origin/release/tronia-3.0"
+   localBranch:  "release/tronia-3.0"
+   localPath:    "TRONIA-WT/release/tronia-3.0"
+   mvnPom:       FCL_TroniaMaven_Pom
+   mvnPomJava:   FCL_TroniaMaven_PomJava 
+####
+applications:
+ - appName: DBLogger 
+   branch: "release/core-0.3"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.5-SNAPSHOT
+#
+ - appName: EventLogger
+   branch: "release/core-0.3"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: FileLogger
+   branch: "release/core-0.3"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: FCL_AdapterFramework_LibTest
+   branch: "release/core-0.3"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: LandingDB_POSItembranch_Pub
+   branch: "release/pos-0.2"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: LandingDB_POSItemDetail_Pub
+   branch: "release/pos-0.2"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: LandingDB_POSMember_Pub
+   branch: "release/pos-0.2"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: LandingDB_POSVendor_Pub
+   branch: "release/pos-0.2"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Mainframe_POS2340_Pub
+   branch: "release/pos-0.2"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Mainframe_POSPurchaseOrderAck_Pub 
+   branch: "release/pos-0.2"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POS2340_Portal 
+   branch: "release/pos-0.2"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: LandingDB_POSItemPrice_Pub 
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: REST_HealthCheck
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: REST_TestingURLs
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSItembranch_Tronia 
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSItemDetail_CRSHub
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSItemPrice_CRSHub
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSMember_CRSHub 
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSPurchaseOrderAck_Tronia 
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSPurchaseOrder_Mainframe
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSTLog_Mainframe 
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Sub_POSVendor_CRSHub
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Trig_Tronia 
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Tronia_POSPurchaseOrder_Pub 
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+#
+ - appName: Tronia_POSTLog_Pub
+   branch: "release/tronia-3.0"
+   previousVersion: 0.0.1-SNAPSHOT
+   currentVersion: 0.0.2-SNAPSHOT
+...

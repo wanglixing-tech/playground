@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema id="BrandbankXml" elementFormDefault="qualified" xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified">
+	<xs:element name="person-group">
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element name="person" type="person"/>
+			</xs:sequence>
+		  </xs:complexType>
+	   </xs:element>
+	   <xs:complexType name="person">
+	   <xs:sequence>
+			   <xs:element name="name" type="xs:string"/>
+			   <xs:element name="age" type="xs:int"/>
+	   </xs:sequence>
+	   </xs:complexType>
+</xs:schema>

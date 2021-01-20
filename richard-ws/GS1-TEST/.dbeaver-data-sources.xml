@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data-sources>
+	<data-source id="db2-16c302d2f8a-715f3823151d0d64" provider="db2" driver="db2" name="DB2 - tcvland2" save-password="true" read-only="false">
+		<connection host="fsr2vllhstag1" port="50000" server="" database="tcvland2" url="jdbc:db2://fsr2vllhstag1:50000/tcvland2" user="esbdbid" password="FRcUckRQF0JVQ0Ve9g==" type="dev">
+			<provider-property name="@dbeaver-trace.append" value="false"/>
+			<provider-property name="@dbeaver-trace.folder" value=""/>
+			<provider-property name="@dbeaver-trace.file" value="trace"/>
+			<provider-property name="@dbeaver-trace.level" value="0"/>
+			<provider-property name="@dbeaver-trace.enabled" value="false"/>
+		</connection>
+	</data-source>
+	<filters/>
+</data-sources>

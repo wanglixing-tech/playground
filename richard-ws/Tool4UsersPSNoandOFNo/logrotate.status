@@ -1,0 +1,2 @@
+logrotate state -- version 2
+"/home/wanglixing/test_bash/log/getUserList.log" 2018-8-22-20:0:0

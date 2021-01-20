@@ -1,0 +1,48 @@
+<html>
+<head>
+<style>
+td.subtitle {
+    color: Navy;
+    font-size:120%;
+    font-family:verdana;
+}
+</style>
+</head>
+        <title>$releaseNotes.projectDesc [$releaseNotes.projectKey]</title>
+        <h2>Project: $releaseNotes.projectDesc [$releaseNotes.projectKey]</h2>
+        <h3>[Release Version: $releaseNotes.fixVersion]</h3>
+    </head>
+    <body>
+		<TABLE bgcolor=#87CEEB>
+			<TR>
+				<TD class="subtitle">Issue Type</TD>
+				<TD class="subtitle">Issue Key</TD>
+				<TD class="subtitle">Description</TD>
+				<TD class="subtitle">Release comment</TD>
+			</TR>
+			<hr>
+            #set ($rowCount = 1)            
+            #foreach($issue in $releaseNotes.issueList)
+                #if ($rowCount % 2 == 0)
+                    #set ($bgcolor = "#FFFFFF")
+                #else
+                    #set ($bgcolor = "#FFFFF0")                
+                #end
+            
+				<TR>
+					<TD bgcolor="$bgcolor"><h3>$issue.issueType.name</h3></TD>
+					<TD bgcolor="$bgcolor">[<a href='$releaseNotes.jiraServerURI/browse/$issue.key'>$issue.key</a>] </TD>
+					<TD bgcolor="$bgcolor">$issue.summary</TD>
+					<TD bgcolor="$bgcolor"">
+					#foreach($customField in $issue.fields)
+						#if ($customField.name.equals("Release Notes Comment") && ($customField.value) )
+							<PRE>$customField.value</PRE>
+						#end
+					#end
+					</TD>
+				</TR>
+                #set ($rowCount = $rowCount + 1)
+           #end
+ 		</TABLE>
+    </body>
+</html>

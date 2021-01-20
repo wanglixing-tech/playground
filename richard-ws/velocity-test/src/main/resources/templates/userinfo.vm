@@ -1,0 +1,5 @@
+User Details
+------------
+#foreach ($rno in $userDataMap.keySet())
+Rno is. $rno; Name is $userDataMap[$rno] or Name is $userDataMap.get($rno)
+#end
