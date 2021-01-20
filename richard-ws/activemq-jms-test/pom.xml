@@ -1,0 +1,58 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.littlegui.activemq</groupId>
+	<artifactId>activemq-jms-test</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>activemq-jms-test</name>
+	<description>activemq-jms-test</description>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<activemq.version>5.14.0</activemq.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-all</artifactId>
+			<version>${activemq.version}</version>
+			<scope>compile</scope>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/javax.jms/javax.jms-api -->
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>javax.jms-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.12</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<!-- Starts an minimal embedded ActiveMQ broker for the test. -->
+			<plugin>
+				<groupId>org.apache.activemq.tooling</groupId>
+				<artifactId>activemq-maven-plugin</artifactId>
+				<version>${activemq.version}</version>
+				<configuration>
+					<configUri>xbean:file:./src/test/resources/activemq.xml</configUri>
+					<fork>true</fork>
+					<systemProperties>
+						<property>
+							<name>org.apache.activemq.default.directory.prefix</name>
+							<value>./target/</value>
+						</property>
+					</systemProperties>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
