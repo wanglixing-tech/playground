@@ -1,0 +1,34 @@
+<wmb:event xmlns:wmb="http://www.ibm.com/xmlns/prod/websphere/messagebroker/6.1.0/monitoring/event">
+  <wmb:eventPointData>
+    <wmb:eventData wmb:eventSchemaVersion="6.1.0.3" wmb:productVersion="100018">
+      <wmb:eventIdentity wmb:eventName="Business-Exception:EOS-Sales-Order"/>
+      <wmb:eventSequence wmb:creationTime="2020-09-09T16:02:06.769816Z"/>
+      <wmb:eventCorrelation wmb:globalTransactionId="" wmb:localTransactionId="cf32f7b2-f2b5-11ea-9b0c-0a28fd240000" wmb:parentTransactionId=""/>
+    </wmb:eventData>
+    <wmb:messageFlowData>
+      <wmb:broker wmb:name="PFIB02"/>
+      <wmb:executionGroup wmb:name="EOS_01"/>
+      <wmb:messageFlow wmb:name="crs.fcl.integration.iib.EOS_EOSSalesOrderAndConfirmation_Mainframe" wmb:threadId="7160" wmb:uniqueFlowName="PFIB02.EOS_01.EOS_EOSSalesOrderAndConfirmation_Mainframe.crs.fcl.integration.iib.EOS_EOSSalesOrderAndConfirmation_Mainframe"/>
+      <wmb:node wmb:nodeLabel="{unknown}" wmb:nodeType="{unknown}"/>
+    </wmb:messageFlowData>
+  </wmb:eventPointData>
+  <wmb:applicationData>
+    <wmb:simpleContent wmb:name="ApplicationLabel" wmb:value="EOS_EOSSalesOrderAndConfirmation_Mainframe"/>
+    <wmb:simpleContent wmb:name="uuid-as-char" wmb:value="cf32f7b2-f2b5-11ea-9b0c-0a28fd240000"/>
+    <wmb:complexContent wmb:elementName="Event" wmb:targetNamespace="http://fcl.crs/xmlns/integration/esb/1.0/event">
+      <eve:Event xmlns:eve="http://fcl.crs/xmlns/integration/esb/1.0/event">
+        <bus:Business xmlns:bus="http://fcl.crs/xmlns/integration/esb/1.0/event/business">
+          <bus:Activity bus:name="LocalEnvironment.File.Name" bus:value="000389_9213.txt"/>
+          <bus:Activity bus:name="CustomerNo" bus:value="000389"/>
+          <bus:Activity bus:name="EosConfNo" bus:value="09213"/>
+          <bus:Activity bus:name="Invalid.Count" bus:value="5"/>
+          <bus:Activity bus:index="1" bus:name="Invalid.Line" bus:value="ItemNo='057000000950' OrderQty='0' BrandCd=''"/>
+          <bus:Activity bus:index="2" bus:name="Invalid.Line" bus:value="ItemNo='057316116024' OrderQty='0' BrandCd=''"/>
+          <bus:Activity bus:index="3" bus:name="Invalid.Line" bus:value="ItemNo='057316144874' OrderQty='0' BrandCd=''"/>
+          <bus:Activity bus:index="4" bus:name="Invalid.Line" bus:value="ItemNo='068400000525' OrderQty='0' BrandCd=''"/>
+          <bus:Activity bus:index="5" bus:name="Invalid.Line" bus:value="ItemNo='068400662105' OrderQty='0' BrandCd=''"/>
+        </bus:Business>
+      </eve:Event>
+    </wmb:complexContent>
+  </wmb:applicationData>
+</wmb:event>

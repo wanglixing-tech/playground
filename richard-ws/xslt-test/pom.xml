@@ -1,6 +1,122 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>crs.fcl.integration.main</groupId>
-  <artifactId>xslt-test</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>crs.fcl.integration.iib.pom</groupId>
+		<artifactId>FCL_Maven_PomJava</artifactId>
+		<version>1.0</version>
+		<relativePath/>
+	</parent>
+	<groupId>crs.fcl.integration.iib</groupId>
+	<artifactId>xslt-testr</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
+	<name>business-exception-parser</name>
+	<description>business-exception-parser</description>
+	<properties>
+		<java.version>1.8</java.version>
+		<version.bootstrap.snapshot>${project.version}</version.bootstrap.snapshot>
+		<version.bootstrap.release>${project.version}</version.bootstrap.release>
+		<version.bootstrap>${project.version}</version.bootstrap>
+		<!--dash.version.bootstrap>-${version.bootstrap}</dash.version.bootstrap -->
+		<dash.version.bootstrap></dash.version.bootstrap>
+	</properties>
+	<build>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<targetPath>${project.build.directory}</targetPath>
+				<includes>
+					<include>log4j.properties</include>
+				</includes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.6.0</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<encoding>${project.build.sourceEncoding}</encoding>
+					<debug>true</debug>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- https://stackoverflow.com/questions/574594/how-can-i-create-an-executable-jar-with-dependencies-using-maven -->
+				<artifactId>maven-assembly-plugin</artifactId>
+				<configuration>
+					<descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs>
+					<!-- https://stackoverflow.com/questions/20697144/can-not-set-the-final-jar-name-with-maven-assembly-plugin -->
+					<!--appendAssemblyId>false</appendAssemblyId -->
+					<archive>
+						<manifest>
+							<addClasspath>true</addClasspath>
+							<classpathPrefix>lib/</classpathPrefix>
+							<mainClass>crs.fcl.integration.main.BestImage</mainClass>
+						</manifest>
+					</archive>
+					<outputDirectory>${project.basedir}/target</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>auto-assembly-single</id>
+						<!-- https://maven.apache.org/plugins/maven-assembly-plugin/usage.html -->
+						<phase>package</phase>
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.8</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<skip>${maven.package.skip}</skip>
+							<target>
+								<property name="fs" value="${file.separator}" />
+								<copy
+									file="${basedir}${fs}target${fs}${project.name}-${project.version}-jar-with-dependencies.jar"
+									tofile="${basedir}${fs}target${fs}${project.name}${dash.version.bootstrap}.jar" />
+							</target>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+		<finalName>${project.artifactId}-${version.bootstrap}</finalName>
+	</build>
+	<dependencies>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-jdk14</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>1.7.21</version> <!-- or use LATEST -->
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>1.2.17</version>
+		</dependency>
+		<dependency>
+			<groupId>crs.fcl.integration.iib.jar</groupId>
+			<artifactId>FCL_AdapterFramework_LibJava</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+	</dependencies>
 </project>
