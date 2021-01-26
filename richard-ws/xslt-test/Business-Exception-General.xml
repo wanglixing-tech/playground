@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<?xml-stylesheet type="text/xsl" href="test.xsl"?>
+<wmb:event xmlns:wmb="http://www.ibm.com/xmlns/prod/websphere/messagebroker/6.1.0/monitoring/event">
+  <wmb:eventPointData>
+    <wmb:eventData wmb:eventSchemaVersion="6.1.0.3" wmb:eventSourceAddress="Subflow (Order - Validation).Subflow (Business Exception).Event (Partial Context: Business Activity).Pass Through (Monitoring - Implicit).terminal.in" wmb:productVersion="100018">
+      <wmb:eventIdentity wmb:eventName="Pass Through (Monitoring - Implicit).InTerminal" />
+      <wmb:eventSequence wmb:counter="4" wmb:creationTime="2020-10-06T23:52:20.123456Z" />
+      <wmb:eventCorrelation wmb:globalTransactionId="" wmb:localTransactionId="81f72aec-f92a-11ea-9b0c-0a28fd240000-11183" wmb:parentTransactionId="" />
+    </wmb:eventData>
+    <wmb:messageFlowData>
+      <wmb:broker wmb:UUID="f60403b8-b494-11e5-847b-0a28fd240000" wmb:name="PFIB02" />
+      <wmb:executionGroup wmb:UUID="1aea1fac-5644-41de-843f-3a40f0612819" wmb:name="EOS_01" />
+      <wmb:messageFlow wmb:UUID="d621d295-3d78-4169-9dd6-f7cb92ed6763" wmb:name="crs.fcl.integration.iib.EOS_EOSSalesOrderAndConfirmation_Mainframe" wmb:threadId="29127" wmb:uniqueFlowName="PFIB02.EOS_01.EOS_EOSSalesOrderAndConfirmation_Mainframe.crs.fcl.integration.iib.EOS_EOSSalesOrderAndConfirmation_Mainframe" />
+      <wmb:node wmb:nodeLabel="Subflow (Order - Validation).Subflow (Business Exception).Event (Partial Context: Business Activity).Pass Through (Monitoring - Implicit)" wmb:nodeType="ComIbmPassthruNode" wmb:terminal="in" />
+    </wmb:messageFlowData>
+  </wmb:eventPointData>
+  <wmb:applicationData>
+    <wmb:simpleContent wmb:dataType="string" wmb:name="EventName" wmb:value="Business-Exception:EOS-Sales-Order" />
+    <wmb:simpleContent wmb:dataType="string" wmb:name="ApplicationLabel" wmb:value="EOS_EOSSalesOrderAndConfirmation_Mainframe" />
+    <wmb:complexContent wmb:elementName="Event" wmb:targetNamespace="http://fcl.crs/xmlns/integration/esb/1.0/event">
+      <eve:Event xmlns:eve="http://fcl.crs/xmlns/integration/esb/1.0/event">
+        <bus:Business xmlns:bus="http://fcl.crs/xmlns/integration/esb/1.0/event/business">
+          <bus:Activity bus:name="LocalEnvironment.File.Name" bus:value="000643_6732.txt" />
+          <bus:Activity bus:name="CustomerNo" bus:value="000643" />
+          <bus:Activity bus:name="EosConfNo" bus:value="06732" />
+          <bus:Activity bus:name="Invalid.Count" bus:value="54" />
+          <bus:Activity bus:index="1" bus:name="Invalid.Line" bus:value="ItemNo='010900633710' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="2" bus:name="Invalid.Line" bus:value="ItemNo='041143025734' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="3" bus:name="Invalid.Line" bus:value="ItemNo='051500025802' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="4" bus:name="Invalid.Line" bus:value="ItemNo='051500025895' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="5" bus:name="Invalid.Line" bus:value="ItemNo='051500025918' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="6" bus:name="Invalid.Line" bus:value="ItemNo='051500025925' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="7" bus:name="Invalid.Line" bus:value="ItemNo='051500090015' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="8" bus:name="Invalid.Line" bus:value="ItemNo='051500090022' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="9" bus:name="Invalid.Line" bus:value="ItemNo='051500710173' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="10" bus:name="Invalid.Line" bus:value="ItemNo='051500751367' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="11" bus:name="Invalid.Line" bus:value="ItemNo='056600902251' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="12" bus:name="Invalid.Line" bus:value="ItemNo='057316006691' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="13" bus:name="Invalid.Line" bus:value="ItemNo='057316013958' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="14" bus:name="Invalid.Line" bus:value="ItemNo='057316014221' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="15" bus:name="Invalid.Line" bus:value="ItemNo='057316014276' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="16" bus:name="Invalid.Line" bus:value="ItemNo='057316014306' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="17" bus:name="Invalid.Line" bus:value="ItemNo='057316014559' OrderQty='1' BrandCd=''" />
+          <bus:Activity bus:index="18" bus:name="Invalid.Line" bus:value="ItemNo='057316014597' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="19" bus:name="Invalid.Line" bus:value="ItemNo='057316014603' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="20" bus:name="Invalid.Line" bus:value="ItemNo='057316014627' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="21" bus:name="Invalid.Line" bus:value="ItemNo='057316014733' OrderQty='1' BrandCd=''" />
+          <bus:Activity bus:index="22" bus:name="Invalid.Line" bus:value="ItemNo='057316127976' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="23" bus:name="Invalid.Line" bus:value="ItemNo='057316164872' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="24" bus:name="Invalid.Line" bus:value="ItemNo='057316168122' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="25" bus:name="Invalid.Line" bus:value="ItemNo='057316169068' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="26" bus:name="Invalid.Line" bus:value="ItemNo='057316169075' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="27" bus:name="Invalid.Line" bus:value="ItemNo='057316169082' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="28" bus:name="Invalid.Line" bus:value="ItemNo='057316169099' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="29" bus:name="Invalid.Line" bus:value="ItemNo='057316169105' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="30" bus:name="Invalid.Line" bus:value="ItemNo='057316172990' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="31" bus:name="Invalid.Line" bus:value="ItemNo='057316178817' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="32" bus:name="Invalid.Line" bus:value="ItemNo='057316179579' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="33" bus:name="Invalid.Line" bus:value="ItemNo='057316187796' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="34" bus:name="Invalid.Line" bus:value="ItemNo='057316187802' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="35" bus:name="Invalid.Line" bus:value="ItemNo='057316187918' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="36" bus:name="Invalid.Line" bus:value="ItemNo='057316188021' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="37" bus:name="Invalid.Line" bus:value="ItemNo='059000000015' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="38" bus:name="Invalid.Line" bus:value="ItemNo='059000003122' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="39" bus:name="Invalid.Line" bus:value="ItemNo='065333001100' OrderQty='1' BrandCd=''" />
+          <bus:Activity bus:index="40" bus:name="Invalid.Line" bus:value="ItemNo='065333001711' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="41" bus:name="Invalid.Line" bus:value="ItemNo='065912001286' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="42" bus:name="Invalid.Line" bus:value="ItemNo='065912001408' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="43" bus:name="Invalid.Line" bus:value="ItemNo='067200002128' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="44" bus:name="Invalid.Line" bus:value="ItemNo='067200003200' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="45" bus:name="Invalid.Line" bus:value="ItemNo='067200003231' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="46" bus:name="Invalid.Line" bus:value="ItemNo='068100055573' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="47" bus:name="Invalid.Line" bus:value="ItemNo='068100055580' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="48" bus:name="Invalid.Line" bus:value="ItemNo='068100083200' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="49" bus:name="Invalid.Line" bus:value="ItemNo='068100083293' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="50" bus:name="Invalid.Line" bus:value="ItemNo='068100902792' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="51" bus:name="Invalid.Line" bus:value="ItemNo='628689700129' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="52" bus:name="Invalid.Line" bus:value="ItemNo='628689700143' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="53" bus:name="Invalid.Line" bus:value="ItemNo='691479590477' OrderQty='0' BrandCd=''" />
+          <bus:Activity bus:index="54" bus:name="Invalid.Line" bus:value="ItemNo='761720003824' OrderQty='0' BrandCd=''" />
+        </bus:Business>
+      </eve:Event>
+    </wmb:complexContent>
+  </wmb:applicationData>
+</wmb:event>
