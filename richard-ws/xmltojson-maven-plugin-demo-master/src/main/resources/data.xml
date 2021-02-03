@@ -1,0 +1,10 @@
+<person>
+    <firstName>Somnath</firstName>
+    <lastName>Musib</lastName>
+    <address>
+        <unitNo>01</unitNo>
+        <street>1-1 Duke Lane</street>
+        <suburb>Bela Vista</suburb>
+        <city>Sydney</city>
+    </address>
+</person>
